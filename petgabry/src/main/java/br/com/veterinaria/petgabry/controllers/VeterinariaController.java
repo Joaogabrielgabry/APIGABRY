@@ -16,7 +16,7 @@ public class VeterinariaController {
 	
 	@GetMapping
 	public String olaMundo() {
-		emailService.writerTeste2();
+		emailService.writerTeste3();
 		return("Email enviado com sucesso");
 	}
 	
