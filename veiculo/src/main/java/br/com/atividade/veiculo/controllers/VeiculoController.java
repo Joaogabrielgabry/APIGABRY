@@ -1,7 +1,11 @@
 package br.com.atividade.veiculo.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,46 +16,57 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.atividade.veiculo.entities.Veiculo;
+import br.com.atividade.veiculo.services.VeiculoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
-@RequestMapping("/veiculos")
+@RequestMapping("/veiculo")
+@Tag(name = "Veículo", description = "API para gerenciar veículos")
 public class VeiculoController {
 
-    private List<Veiculo> veiculos = new ArrayList<>();
-    
-    private Long idCounter = 1L;
+    @Autowired
+    private VeiculoService veiculoService;
+
     @PostMapping
-    public Veiculo adicionarVeiculo(@RequestBody Veiculo veiculo) {
-        veiculo.setId(idCounter++);
-        veiculos.add(veiculo);
-        return veiculo;
+    @Operation(summary = "Adiciona um novo veículo")
+    public ResponseEntity<Veiculo> adicionarVeiculo(@RequestBody Veiculo veiculo) {
+        Veiculo novoVeiculo = veiculoService.adicionarVeiculo(veiculo);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoVeiculo);
     }
-    @GetMapping
-    public List<Veiculo> listarVeiculos() {
-        return veiculos;
-    }
-    @GetMapping("/{id}")
-    public Veiculo buscarVeiculo(@PathVariable Long id) {
-        return veiculos.stream()
-                .filter(veiculo -> veiculo.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-    }
-    @PutMapping("/{id}")
-    public Veiculo atualizarVeiculo(@PathVariable Long id, @RequestBody Veiculo veiculoAtualizado) {
-        Veiculo veiculo = buscarVeiculo(id);
-        if (veiculo != null) {
-            veiculo.setMarca(veiculoAtualizado.getMarca());
-            veiculo.setModelo(veiculoAtualizado.getModelo());
-        }
-        return veiculo;
-    }
+
     @DeleteMapping("/{id}")
-    public String removerVeiculo(@PathVariable Long id) {
-        Veiculo veiculo = buscarVeiculo(id);
-        if (veiculo != null) {
-            veiculos.remove(veiculo);
-            return "Veículo removido com sucesso!";
+    @Operation(summary = "Remove um veículo pelo ID")
+    public ResponseEntity<Void> removerVeiculo(@PathVariable Integer id) {
+        if (!veiculoService.buscarVeiculoPorId(id).isPresent()) {
+            return ResponseEntity.notFound().build();
         }
-        return "Veículo não encontrado!";
+        veiculoService.removerVeiculo(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Atualiza as informações de um veículo pelo ID")
+    public ResponseEntity<Veiculo> atualizarVeiculo(@PathVariable Integer id, @RequestBody Veiculo veiculo) {
+        if (!veiculoService.buscarVeiculoPorId(id).isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        veiculo.setId(id);
+        Veiculo veiculoAtualizado = veiculoService.atualizarVeiculo(veiculo);
+        return ResponseEntity.ok(veiculoAtualizado);
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Busca um veículo pelo ID")
+    public ResponseEntity<Veiculo> buscarVeiculoPorId(@PathVariable Integer id) {
+        Optional<Veiculo> veiculo = veiculoService.buscarVeiculoPorId(id);
+        return veiculo.map(ResponseEntity::ok)
+                      .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    @Operation(summary = "Lista todos os veículos")
+    public List<Veiculo> listarVeiculos() {
+        return veiculoService.listarVeiculos();
     }
 }
