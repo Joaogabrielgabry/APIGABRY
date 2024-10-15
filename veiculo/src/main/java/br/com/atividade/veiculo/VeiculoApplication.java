@@ -1,12 +1,13 @@
-package br.com.veterinaria.petgabry;
+package br.com.atividade.veiculo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PetgabryApplication {
+public class VeiculoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PetgabryApplication.class, args);
+		SpringApplication.run(VeiculoApplication.class, args);
 	}
+
 }
