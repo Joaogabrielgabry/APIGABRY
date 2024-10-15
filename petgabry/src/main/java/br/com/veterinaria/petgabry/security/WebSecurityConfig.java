@@ -1,11 +1,13 @@
 package br.com.veterinaria.petgabry.security;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Customizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,33 +23,33 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import br.com.veterinaria.petgabry.security.services.UserDetailsServiceImpl;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-import io.jsonwebtoken.lang.Arrays;
-
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
 public class WebSecurityConfig {
 	@Autowired
 	UserDetailsServiceImpl userDetailsService;
+
 	@Autowired
 	private AuthEntryPointJwt unauthorizedHandler;
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors(withDefaults())
-                .csrf(csrf -> csrf.disable())
-                .exceptionHandling(handling -> handling.authenticationEntryPoint(unauthorizedHandler))
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/g6/**", "/auth/**", "/h2-console/**", "/roles/**", "/test/all/**", "/swagger-ui/**", "/v3/api-docs/**", "/actuator/**").permitAll()
-                        .requestMatchers("/test/user/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/test/admin/**").hasRole("ADMIN")
-                        .anyRequest().authenticated());
+		http.cors(Customizer.withDefaults()).csrf(csrf -> csrf.disable())
+				.exceptionHandling(handling -> handling.authenticationEntryPoint(unauthorizedHandler))
+				.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.authorizeHttpRequests(auth -> auth
+						.requestMatchers("/g6/**", "/auth/**", "/h2-console/**", "/roles/**", "/test/all/**",
+								"/swagger-ui/**", "/v3/api-docs/**", "/actuator/**").permitAll()
+						.requestMatchers("/test/user/**").hasAnyRole("USER", "ADMIN")// HasAnyRole => permite acesso a url para um ou mais papeis quando não há interesse de serem todos
+						.requestMatchers("/test/admin/**").hasRole("ADMIN")// HasRole => permite acesso a url para um papel específico
+						.anyRequest().authenticated());
 
-	    http.authenticationProvider(authenticationProvider());
-	    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-	    return http.build();
+		http.authenticationProvider(authenticationProvider());
+
+		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+		return http.build();
 	}
+
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
