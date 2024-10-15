@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,17 +18,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.api.teste.security.domain.Role;
-import br.com.api.teste.security.domain.User;
-import br.com.api.teste.security.dto.JwtResponseDTO;
-import br.com.api.teste.security.dto.LoginRequestDTO;
-import br.com.api.teste.security.dto.MessageResponseDTO;
-import br.com.api.teste.security.dto.SignupRequestDTO;
-import br.com.api.teste.security.enums.RoleEnum;
-import br.com.api.teste.security.jwt.JwtUtils;
-import br.com.api.teste.security.repositories.RoleRepository;
-import br.com.api.teste.security.repositories.UserRepository;
-import br.com.api.teste.security.services.UserDetailsImpl;
+import br.com.veterinaria.petgabry.security.dto.JwtResponseDTO;
+import br.com.veterinaria.petgabry.security.dto.LoginRequestDTO;
+import br.com.veterinaria.petgabry.security.dto.MessageResponseDTO;
+import br.com.veterinaria.petgabry.security.dto.SignupRequestDTO;
+import br.com.veterinaria.petgabry.security.entities.Role;
+import br.com.veterinaria.petgabry.security.entities.User;
+import br.com.veterinaria.petgabry.security.enums.RoleEnum;
+import br.com.veterinaria.petgabry.security.jwt.JwtUtils;
+import br.com.veterinaria.petgabry.security.repositories.RoleRepository;
+import br.com.veterinaria.petgabry.security.repositories.UserRepository;
+import br.com.veterinaria.petgabry.security.services.UserDetailsImpl;
+import jakarta.validation.Valid;
+
+
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController

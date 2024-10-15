@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import br.com.veterinaria.petgabry.security.entities.Role;
+import br.com.veterinaria.petgabry.security.services.RoleService;
 
-import br.com.api.teste.security.domain.Role;
-import br.com.api.teste.security.services.RoleService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController

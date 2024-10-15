@@ -1,6 +1,7 @@
 package br.com.veterinaria.petgabry.security.entities;
 
-import br.com.api.teste.security.enums.RoleEnum;
+
+import br.com.veterinaria.petgabry.security.enums.RoleEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
