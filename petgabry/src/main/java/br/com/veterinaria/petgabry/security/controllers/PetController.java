@@ -1,4 +1,4 @@
-package br.com.veterinaria.petgabry.controllers;
+package br.com.veterinaria.petgabry.security.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

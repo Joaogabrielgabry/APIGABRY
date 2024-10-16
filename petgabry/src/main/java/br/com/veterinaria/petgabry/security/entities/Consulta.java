@@ -1,4 +1,4 @@
-package br.com.veterinaria.petgabry.entities;
+package br.com.veterinaria.petgabry.security.entities;
 
 import java.time.LocalDate;
 

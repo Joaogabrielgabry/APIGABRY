@@ -1,4 +1,4 @@
-package br.com.veterinaria.petgabry.entities;
+package br.com.veterinaria.petgabry.security.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

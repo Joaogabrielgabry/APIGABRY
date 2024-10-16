@@ -1,6 +1,7 @@
-package br.com.veterinaria.petgabry.entities;
+package br.com.veterinaria.petgabry.security.entities;
 
 import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
