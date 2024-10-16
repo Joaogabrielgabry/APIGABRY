@@ -11,105 +11,103 @@ import jakarta.persistence.Table;
 @Table(name = "endereco")
 public class Endereco {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@Column(name = "end_tx_cep")
-	private String cep;
-	
-	@Column(name = "end_tx_logradouro")
-	private String logradouro;
-	
-	@Column(name = "end_tx_bairro")
-	private String bairro;
-	
-	@Column(name = "end_tx_localidade")
-	private String localidade;
-	
-	@Column(name = "end_tx_uf")
-	private String uf;
-	
-	@Column(name = "end_tx_complemento")
-	private String complemento;
-	
-	@Column(name = "end_int_numero")
-	private int numero;
-	public Endereco() {
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public Endereco(Long id, String cep, String logradouro, String bairro, String localidade, String uf,
-	        String complemento, int numero) {
-	    super();
-	    this.id = id;
-	    this.cep = cep;
-	    this.logradouro = logradouro;
-	    this.bairro = bairro;
-	    this.localidade = localidade;
-	    this.uf = uf;
-	    this.complemento = complemento;
-	    this.numero = numero;
-	}
+    @Column(name = "end_tx_cep")
+    private String cep;
 
+    @Column(name = "end_tx_logradouro")
+    private String logradouro;
 
-	public String getCep() {
-		return cep;
-	}
+    @Column(name = "end_tx_bairro")
+    private String bairro;
 
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
+    @Column(name = "end_tx_localidade")
+    private String localidade;
 
-	public String getLogradouro() {
-		return logradouro;
-	}
+    @Column(name = "end_tx_uf")
+    private String uf;
 
-	public void setLogradouro(String logradouro) {
-		this.logradouro = logradouro;
-	}
+    @Column(name = "end_tx_complemento")
+    private String complemento;
 
-	public String getBairro() {
-		return bairro;
-	}
+    @Column(name = "end_int_numero")
+    private int numero;
 
-	public void setBairro(String bairro) {
-		this.bairro = bairro;
-	}
+    public Endereco() {}
 
-	public String getLocalidade() {
-		return localidade;
-	}
+    public Endereco(Long id, String cep, String logradouro, String bairro, String localidade, String uf, String complemento, int numero) {
+        this.id = id;
+        this.cep = cep;
+        this.logradouro = logradouro;
+        this.bairro = bairro;
+        this.localidade = localidade;
+        this.uf = uf;
+        this.complemento = complemento;
+        this.numero = numero;
+    }
 
-	public void setLocalidade(String localidade) {
-		this.localidade = localidade;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getUf() {
-		return uf;
-	}
+    public String getCep() {
+        return cep;
+    }
 
-	public void setUf(String uf) {
-		this.uf = uf;
-	}
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
 
-	public String getComplemento() {
-		return complemento;
-	}
+    public String getLogradouro() {
+        return logradouro;
+    }
 
-	public void setComplemento(String complemento) {
-		this.complemento = complemento;
-	}
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
+    }
 
-	public Long getId() {
-		return id;
-	}
-	public int getNumero() {
-	    return numero;
-	}
+    public String getBairro() {
+        return bairro;
+    }
 
-	public void setNumero(int numero) {
-	    this.numero = numero;
-	}
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    public String getLocalidade() {
+        return localidade;
+    }
+
+    public void setLocalidade(String localidade) {
+        this.localidade = localidade;
+    }
+
+    public String getUf() {
+        return uf;
+    }
+
+    public void setUf(String uf) {
+        this.uf = uf;
+    }
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
 
 	@Override
 	public String toString() {
@@ -117,4 +115,6 @@ public class Endereco {
 				+ ", localidade=" + localidade + ", uf=" + uf + ", complemento=" + complemento + ", numero=" + numero
 				+ "]";
 	}
+    
+    
 }

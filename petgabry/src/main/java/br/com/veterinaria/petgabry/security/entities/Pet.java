@@ -1,7 +1,18 @@
 package br.com.veterinaria.petgabry.security.entities;
 
-import jakarta.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
+import br.com.veterinaria.petgabry.security.enums.EnumType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "pet")
@@ -9,11 +20,10 @@ public class Pet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
+    private int id;
 
-    @Column(name = "nome")
-    private String nome;
+    @Column(name = "nomepet")
+    private String nomePet;
 
     @Column(name = "tipo")
     private String tipo;
@@ -21,38 +31,46 @@ public class Pet {
     @Column(name = "descricao")
     private String descricao;
 
+    @Column(name = "nomedono")
+    private String nomeDono;
+
     @ManyToOne
-    @JoinColumn(name = "veterinaria_id")
-    private Veterinaria veterinaria;
+    @JoinColumn(name = "endereco_id", referencedColumnName = "id")
+    private Endereco endereco;
 
-    @OneToOne
-    @JoinColumn(name = "dono_id")
-    private Dono dono;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
-    @OneToMany(mappedBy = "pet")
-    private List<Consulta> consultas;
+    @Column(name = "entity_type")
+    private EnumType enumType;
+
+    @ManyToMany(mappedBy = "pets")
+    private Set<Clinica> clinicas = new HashSet<>();
 
     public Pet() {}
 
-    public Pet(Integer id, String nome, String tipo, String descricao, Veterinaria veterinaria, Dono dono) {
+    public Pet(int id, String nomePet, String tipo, String descricao, String nomeDono, Endereco endereco, User user, EnumType entityType) {
         this.id = id;
-        this.nome = nome;
+        this.nomePet = nomePet;
         this.tipo = tipo;
         this.descricao = descricao;
-        this.veterinaria = veterinaria;
-        this.dono = dono;
+        this.nomeDono = nomeDono;
+        this.endereco = endereco;
+        this.user = user;
+        this.enumType = entityType;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNomePet() {
+        return nomePet;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNomePet(String nomePet) {
+        this.nomePet = nomePet;
     }
 
     public String getTipo() {
@@ -71,32 +89,44 @@ public class Pet {
         this.descricao = descricao;
     }
 
-    public Veterinaria getVeterinaria() {
-        return veterinaria;
+    public String getNomeDono() {
+        return nomeDono;
     }
 
-    public void setVeterinaria(Veterinaria veterinaria) {
-        this.veterinaria = veterinaria;
+    public void setNomeDono(String nomeDono) {
+        this.nomeDono = nomeDono;
     }
 
-    public Dono getDono() {
-        return dono;
+    public Endereco getEndereco() {
+        return endereco;
     }
 
-    public void setDono(Dono dono) {
-        this.dono = dono;
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 
-    public List<Consulta> getConsultas() {
-        return consultas;
+    public User getUser() {
+        return user;
     }
 
-    public void setConsultas(List<Consulta> consultas) {
-        this.consultas = consultas;
+    public EnumType getEnumType() {
+        return enumType;
     }
 
-    @Override
-    public String toString() {
-        return "Pet [id=" + id + ", nome=" + nome + ", tipo=" + tipo + ", descricao=" + descricao + ", veterinaria=" + veterinaria + ", dono=" + dono + "]";
+    public Set<Clinica> getClinicas() {
+        return clinicas;
     }
+
+    public void setClinicas(Set<Clinica> clinicas) {
+        this.clinicas = clinicas;
+    }
+
+	@Override
+	public String toString() {
+		return "Pet [id=" + id + ", nomePet=" + nomePet + ", tipo=" + tipo + ", descricao=" + descricao + ", nomeDono="
+				+ nomeDono + ", endereco=" + endereco + ", user=" + user + ", enumType=" + enumType + ", clinicas="
+				+ clinicas + "]";
+	}
+    
+    
 }
