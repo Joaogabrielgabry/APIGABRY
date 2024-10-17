@@ -1,4 +1,4 @@
-package br.com.veterinaria.petgabry.repository;
+package br.com.veterinaria.petgabry.security.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

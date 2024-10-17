@@ -48,14 +48,14 @@ public class User {
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @OneToOne // Relacionamento OneToOne com Endereco
+    @OneToOne 
     @JoinColumn(name = "endereco_id", referencedColumnName = "id")
     private Endereco endereco;
 
-    @OneToMany(mappedBy = "user") // Relacionamento OneToMany com Pet
+    @OneToMany(mappedBy = "user") 
     private Set<Pet> pets = new HashSet<>();
 
-    @OneToMany(mappedBy = "user") // Relacionamento OneToMany com Clinica
+    @OneToMany(mappedBy = "user") 
     private Set<Clinica> clinicas = new HashSet<>();
 
     public User() {}
@@ -66,7 +66,7 @@ public class User {
         this.password = password;
     }
 
-    // Getters e Setters
+    
     public Integer getId() {
         return id;
     }

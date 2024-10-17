@@ -39,9 +39,9 @@ public class WebSecurityConfig {
 				.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/g6/**", "/auth/**", "/h2-console/**", "/roles/**", "/test/all/**",
-								"/swagger-ui/**", "/v3/api-docs/**", "/actuator/**").permitAll()
-						.requestMatchers("/test/user/**").hasAnyRole("USER", "ADMIN")// HasAnyRole => permite acesso a url para um ou mais papeis quando não há interesse de serem todos
-						.requestMatchers("/test/admin/**").hasRole("ADMIN")// HasRole => permite acesso a url para um papel específico
+								"/swagger-ui/**", "/v3/api-docs/**", "/actuator/**", "/veterinaria/**").permitAll()
+						.requestMatchers("/test/user/**").hasAnyRole("USER", "ADMIN")
+						.requestMatchers("/test/admin/**").hasRole("ADMIN")
 						.anyRequest().authenticated());
 
 		http.authenticationProvider(authenticationProvider());

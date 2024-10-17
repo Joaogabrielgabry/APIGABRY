@@ -24,6 +24,9 @@ public class Endereco {
     @Column(name = "end_tx_bairro")
     private String bairro;
 
+    @Column(name = "end_tx_estado")
+    private String estado;
+    
     @Column(name = "end_tx_localidade")
     private String localidade;
 
@@ -32,13 +35,16 @@ public class Endereco {
 
     @Column(name = "end_tx_complemento")
     private String complemento;
+    
+    @Column(name = "end_tx_regiao")
+    private String regiao;
 
     @Column(name = "end_int_numero")
     private int numero;
 
     public Endereco() {}
 
-    public Endereco(Long id, String cep, String logradouro, String bairro, String localidade, String uf, String complemento, int numero) {
+    public Endereco(Long id, String cep, String logradouro, String bairro, String localidade, String uf, String complemento, int numero, String estado, String regiao) {
         this.id = id;
         this.cep = cep;
         this.logradouro = logradouro;
@@ -47,13 +53,45 @@ public class Endereco {
         this.uf = uf;
         this.complemento = complemento;
         this.numero = numero;
+        this.estado = estado;
+        this.regiao = regiao;
     }
 
-    public Long getId() {
+	public Endereco(String bairro, String cep, String complemento, String estado, String localidade,
+			String logradouro, int numero, String regiao, String uf) {
+		
+		this.cep = cep;
+        this.logradouro = logradouro;
+        this.bairro = bairro;
+        this.localidade = localidade;
+        this.uf = uf;
+        this.complemento = complemento;
+        this.numero = numero;
+        this.estado = estado;
+        this.regiao = regiao;
+	}
+
+	public String getRegiao() {
+		return regiao;
+	}
+
+	public void setRegiao(String regiao) {
+		this.regiao = regiao;
+	}
+
+	public Long getId() {
         return id;
     }
 
-    public String getCep() {
+    public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public String getCep() {
         return cep;
     }
 
@@ -108,13 +146,12 @@ public class Endereco {
     public void setNumero(int numero) {
         this.numero = numero;
     }
-
-	@Override
-	public String toString() {
-		return "Endereco [id=" + id + ", cep=" + cep + ", logradouro=" + logradouro + ", bairro=" + bairro
-				+ ", localidade=" + localidade + ", uf=" + uf + ", complemento=" + complemento + ", numero=" + numero
-				+ "]";
-	}
     
+    @Override
+	public String toString() {
+		return "Endereco [id=" + id + ", cep=" + cep + ", logradouro=" + logradouro + ", bairro=" + bairro + ", estado="
+				+ estado + ", localidade=" + localidade + ", uf=" + uf + ", complemento=" + complemento + ", regiao="
+				+ regiao + ", numero=" + numero + "]";
+	}
     
 }
