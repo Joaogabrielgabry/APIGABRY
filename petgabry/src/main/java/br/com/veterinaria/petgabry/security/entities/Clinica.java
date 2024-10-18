@@ -10,9 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,10 +26,6 @@ public class Clinica {
     private String nome;
 
     @ManyToOne
-    @JoinColumn(name = "endereco_id", referencedColumnName = "id")
-    private Endereco endereco;
-
-    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
@@ -40,20 +35,14 @@ public class Clinica {
     @Column(name = "entity_type")
     private EnumType enumType;
 
-    @ManyToMany
-    @JoinTable(
-        name = "clinica_pet",
-        joinColumns = @JoinColumn(name = "clinica_id"),
-        inverseJoinColumns = @JoinColumn(name = "pet_id")
-    )
+    @OneToMany(mappedBy = "clinica")
     private Set<Pet> pets = new HashSet<>();
 
     public Clinica() {}
 
-    public Clinica(int id, String nome, Endereco endereco, User user, String horarioFuncionamento, EnumType entityType) {
+    public Clinica(int id, String nome, User user, String horarioFuncionamento, EnumType entityType) {
         this.id = id;
         this.nome = nome;
-        this.endereco = endereco;
         this.user = user;
         this.horarioFuncionamento = horarioFuncionamento;
         this.enumType = entityType;
@@ -69,14 +58,6 @@ public class Clinica {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public Endereco getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
     }
 
     public String getHorarioFuncionamento() {
@@ -105,7 +86,7 @@ public class Clinica {
 
 	@Override
 	public String toString() {
-		return "Clinica [id=" + id + ", nome=" + nome + ", endereco=" + endereco + ", user=" + user
+		return "Clinica [id=" + id + ", nome=" + nome + ", user=" + user
 				+ ", horarioFuncionamento=" + horarioFuncionamento + ", enumType=" + enumType + ", pets=" + pets + "]";
 	}
     

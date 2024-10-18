@@ -1,5 +1,7 @@
 package br.com.veterinaria.petgabry.security.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,4 +57,19 @@ public class EnderecoService {
 	    enderecoRepository.save(enderecoConvertido);
 	    return endereco;
 	  }
+
+public EnderecoResponseDTO buscarEndereco(Integer id) {
+	Optional<Endereco> endereco = enderecoRepository.findById(id);
+	EnderecoResponseDTO enderecoResponseDTO = new EnderecoResponseDTO();
+	enderecoResponseDTO.setCep(endereco.get().getCep());
+	enderecoResponseDTO.setBairro(endereco.get().getBairro()); 
+	enderecoResponseDTO.setComplemento(endereco.get().getComplemento());
+	enderecoResponseDTO.setEstado(endereco.get().getEstado());
+	enderecoResponseDTO.setLocalidade(endereco.get().getLocalidade());
+	enderecoResponseDTO.setLogradouro(endereco.get().getLogradouro());
+	enderecoResponseDTO.setRegiao(endereco.get().getRegiao());
+	enderecoResponseDTO.setUf(endereco.get().getUf());
+	enderecoResponseDTO.setNumero(endereco.get().getNumero());
+	return enderecoResponseDTO;
+}
 }
