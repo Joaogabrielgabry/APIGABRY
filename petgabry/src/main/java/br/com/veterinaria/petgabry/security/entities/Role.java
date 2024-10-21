@@ -10,12 +10,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-//É uma entidade que representa um papel ou função de um usuário em um sistema.
-@Entity //representa uma entidade
-@Table(name = "roles") //indica a entidade como tabela no banco
+@Entity 
+@Table(name = "roles") 
 public class Role {
-	@Id //identifica o elemento único na tabela
-	@GeneratedValue(strategy = GenerationType.IDENTITY) //geração automática do id
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id; 
 	
 	@Enumerated(EnumType.STRING) 

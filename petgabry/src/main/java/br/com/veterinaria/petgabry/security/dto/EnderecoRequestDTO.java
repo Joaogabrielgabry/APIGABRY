@@ -5,6 +5,11 @@ public class EnderecoRequestDTO {
 	private String cep;
 	private int numero;
 	private String complemento;
+	
+	
+	public EnderecoRequestDTO() {}
+	
+	
 	public String getCep() {
 		return cep;
 	}

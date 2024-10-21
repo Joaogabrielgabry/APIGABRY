@@ -3,7 +3,6 @@ package br.com.veterinaria.petgabry.security.entities;
 import java.util.HashSet;
 import java.util.Set;
 
-import br.com.veterinaria.petgabry.security.enums.EnumType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,30 +22,31 @@ public class Clinica {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "nomeclinica")
+    @Column(name = "nome")
     private String nome;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
+    @OneToOne
+    @JoinColumn(name = "endereco_id", referencedColumnName = "id")
+    private Endereco endereco;
+
     @Column(name = "horario_funcionamento")
     private String horarioFuncionamento;
-
-    @Column(name = "entity_type")
-    private EnumType enumType;
 
     @OneToMany(mappedBy = "clinica")
     private Set<Pet> pets = new HashSet<>();
 
     public Clinica() {}
 
-    public Clinica(int id, String nome, User user, String horarioFuncionamento, EnumType entityType) {
+    public Clinica(int id, String nome, User user, Endereco endereco, String horarioFuncionamento) {
         this.id = id;
         this.nome = nome;
         this.user = user;
+        this.endereco = endereco;
         this.horarioFuncionamento = horarioFuncionamento;
-        this.enumType = entityType;
     }
 
     public int getId() {
@@ -72,8 +73,16 @@ public class Clinica {
         return user;
     }
 
-    public EnumType getEnumType() {
-        return enumType;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 
     public Set<Pet> getPets() {
@@ -84,11 +93,9 @@ public class Clinica {
         this.pets = pets;
     }
 
-	@Override
-	public String toString() {
-		return "Clinica [id=" + id + ", nome=" + nome + ", user=" + user
-				+ ", horarioFuncionamento=" + horarioFuncionamento + ", enumType=" + enumType + ", pets=" + pets + "]";
-	}
-    
-    
+    @Override
+    public String toString() {
+        return "Clinica [id=" + id + ", nome=" + nome + ", user=" + user + ", endereco=" + endereco
+                + ", horarioFuncionamento=" + horarioFuncionamento + ", pets=" + pets + "]";
+    }
 }

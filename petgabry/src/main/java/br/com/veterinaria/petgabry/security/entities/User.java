@@ -130,4 +130,8 @@ public class User {
     public void setClinicas(Set<Clinica> clinicas) {
         this.clinicas = clinicas;
     }
+
+	public String getNome() {
+		return username;
+	}
 }

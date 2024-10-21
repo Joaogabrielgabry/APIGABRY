@@ -38,7 +38,7 @@ public class SwaggerConfig {
         Info info = new Info();
         info.setTitle("petgabry API");
         info.setVersion("3.0.0");
-        info.setDescription("API to manage people and series.");
+        info.setDescription("API to manage clinic and pets.");
         info.setContact(contact);
         info.setLicense(license);
         info.setTermsOfService("https://swagger.io/terms/");

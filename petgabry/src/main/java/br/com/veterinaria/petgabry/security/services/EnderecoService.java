@@ -14,62 +14,54 @@ import br.com.veterinaria.petgabry.utils.Util;
 @Service
 public class EnderecoService {
 
-	@Autowired
-	Util util;
+    @Autowired
+    private Util util;
 
-	@Autowired
-	EnderecoRepository enderecoRepository;
+    @Autowired
+    private EnderecoRepository enderecoRepository;
 
-//  public EnderecoResponseDTO consultarEndereco(String cep, int numero, String complemento) {
-//
-//    EnderecoResponseDTO viaCep = util.buscarEndereco(cep); 
-//    EnderecoResponseDTO endereco = new EnderecoResponseDTO(); 
-//
-//    endereco.setCep(viaCep.getCep());
-//    endereco.setBairro(viaCep.getBairro()); 
-//    endereco.setComplemento(viaCep.getComplemento());
-//    endereco.setEstado(viaCep.getEstado());
-//    endereco.setLocalidade(viaCep.getLocalidade());
-//    endereco.setLogradouro(viaCep.getLogradouro());
-//    endereco.setRegiao(viaCep.getRegiao());
-//    endereco.setUf(viaCep.getUf());
-//    endereco.setNumero(numero);
-//
-//    return endereco;
-//  }
+    public EnderecoResponseDTO consultarEndereco(EnderecoRequestDTO enderecoDto) {
+        EnderecoResponseDTO viaCep = util.buscarEndereco(enderecoDto.getCep());
+        EnderecoResponseDTO endereco = new EnderecoResponseDTO();
 
-	public EnderecoResponseDTO consultarEndereco(EnderecoRequestDTO enderecoDto) {
+        endereco.setCep(viaCep.getCep());
+        endereco.setBairro(viaCep.getBairro());
+        endereco.setComplemento(enderecoDto.getComplemento());
+        endereco.setEstado(viaCep.getEstado());
+        endereco.setLocalidade(viaCep.getLocalidade());
+        endereco.setLogradouro(viaCep.getLogradouro());
+        endereco.setRegiao(viaCep.getRegiao());
+        endereco.setUf(viaCep.getUf());
+        endereco.setNumero(enderecoDto.getNumero());
 
-		EnderecoResponseDTO viaCep = util.buscarEndereco(enderecoDto.getCep());
-		EnderecoResponseDTO endereco = new EnderecoResponseDTO();
+        Endereco enderecoConvertido = endereco.toEndereco();
+        enderecoRepository.save(enderecoConvertido);
+        return endereco;
+    }
 
-		endereco.setCep(viaCep.getCep());
-		endereco.setBairro(viaCep.getBairro());
-		endereco.setComplemento(enderecoDto.getComplemento());
-		endereco.setEstado(viaCep.getEstado());
-		endereco.setLocalidade(viaCep.getLocalidade());
-		endereco.setLogradouro(viaCep.getLogradouro());
-		endereco.setRegiao(viaCep.getRegiao());
-		endereco.setUf(viaCep.getUf());
-		endereco.setNumero(enderecoDto.getNumero());
+ 
+    public EnderecoResponseDTO buscarEndereco(Integer id) {
+        Optional<Endereco> enderecoOpt = enderecoRepository.findById(id);
+ 
+        Endereco endereco = enderecoOpt.orElseThrow(() -> 
+            new RuntimeException("Endereço não encontrado com o ID: " + id)
+        );
+        
+        EnderecoResponseDTO enderecoResponseDTO = new EnderecoResponseDTO();
+        enderecoResponseDTO.setCep(endereco.getCep());
+        enderecoResponseDTO.setBairro(endereco.getBairro());
+        enderecoResponseDTO.setComplemento(endereco.getComplemento());
+        enderecoResponseDTO.setEstado(endereco.getEstado());
+        enderecoResponseDTO.setLocalidade(endereco.getLocalidade());
+        enderecoResponseDTO.setLogradouro(endereco.getLogradouro());
+        enderecoResponseDTO.setRegiao(endereco.getRegiao());
+        enderecoResponseDTO.setUf(endereco.getUf());
+        enderecoResponseDTO.setNumero(endereco.getNumero());
 
-		Endereco enderecoConvertido = endereco.toEndereco();
-		enderecoRepository.save(enderecoConvertido);
-		return endereco;
-	}
+        return enderecoResponseDTO;
+    }
 
-	public EnderecoResponseDTO buscarEndereco(Integer id) {
-		Optional<Endereco> endereco = enderecoRepository.findById(id);
-		EnderecoResponseDTO enderecoResponseDTO = new EnderecoResponseDTO();
-		enderecoResponseDTO.setCep(endereco.get().getCep());
-		enderecoResponseDTO.setBairro(endereco.get().getBairro());
-		enderecoResponseDTO.setComplemento(endereco.get().getComplemento());
-		enderecoResponseDTO.setEstado(endereco.get().getEstado());
-		enderecoResponseDTO.setLocalidade(endereco.get().getLocalidade());
-		enderecoResponseDTO.setLogradouro(endereco.get().getLogradouro());
-		enderecoResponseDTO.setRegiao(endereco.get().getRegiao());
-		enderecoResponseDTO.setUf(endereco.get().getUf());
-		enderecoResponseDTO.setNumero(endereco.get().getNumero());
-		return enderecoResponseDTO;
-	}
+    public Optional<Endereco> findById(Integer id) {
+        return enderecoRepository.findById(id);
+    }
 }
