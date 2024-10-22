@@ -27,16 +27,6 @@ public class ClinicaController {
 
 	@Autowired
 	private ClinicaService clinicaService;
-	 
-//	@PostMapping("/buscar")
-//	public EnderecoResponseDTO testeEndereco(@RequestParam String cep, @RequestParam int numero, @RequestParam String complemento) {
-//	    return enderecoService.consultarEndereco(cep, numero, complemento);
-//	}
-
-//	@PostMapping("/buscar")
-//	public EnderecoResponseDTO testeEndereco(@RequestBody EnderecoRequestDTO enderecoDTO) {
-//		return enderecoService.consultarEndereco(enderecoDTO);
-//	}
 
 	 @PostMapping("/cadastrar")
 	    public ResponseEntity<Clinica> cadastrarClinica(@RequestBody ClinicaRequestDTO clinicaRequestDTO) {

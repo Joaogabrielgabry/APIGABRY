@@ -34,8 +34,8 @@ public class EnderecoService {
         endereco.setUf(viaCep.getUf());
         endereco.setNumero(enderecoDto.getNumero());
 
-        Endereco enderecoConvertido = endereco.toEndereco();
-        enderecoRepository.save(enderecoConvertido);
+//        Endereco enderecoConvertido = endereco.toEndereco();
+//        enderecoRepository.save(enderecoConvertido);
         return endereco;
     }
 
@@ -63,5 +63,14 @@ public class EnderecoService {
 
     public Optional<Endereco> findById(Integer id) {
         return enderecoRepository.findById(id);
+    }
+    
+    public Endereco criarEndereco(EnderecoRequestDTO enderecoDto) {
+    	Endereco endereco = new Endereco();
+    	
+    	endereco.setCep(enderecoDto.getCep());
+    	endereco.setNumero(enderecoDto.getNumero());
+    	endereco.setComplemento(enderecoDto.getComplemento());
+    	return enderecoRepository.save(endereco);
     }
 }

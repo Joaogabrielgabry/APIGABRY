@@ -10,6 +10,7 @@ import br.com.veterinaria.petgabry.security.dto.ClinicaRequestDTO;
 import br.com.veterinaria.petgabry.security.entities.Clinica;
 import br.com.veterinaria.petgabry.security.entities.Endereco;
 import br.com.veterinaria.petgabry.security.repositories.ClinicaRepository;
+import br.com.veterinaria.petgabry.security.repositories.EnderecoRepository;
 
 @Service
 public class ClinicaService {
@@ -19,10 +20,13 @@ public class ClinicaService {
 
     @Autowired
     private EnderecoService enderecoService;
+    
+    @Autowired
+    private EnderecoRepository enderecoRepository;
 
     public Clinica cadastrarClinica(ClinicaRequestDTO clinicaDto) {
         Endereco endereco = enderecoService.consultarEndereco(clinicaDto.getEndereco()).toEndereco();
-
+        enderecoRepository.save(endereco);
         Clinica clinica = new Clinica();
         clinica.setNome(clinicaDto.getNome());
         clinica.setHorarioFuncionamento(clinicaDto.getHorarioFuncionamento());
