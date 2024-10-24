@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import br.com.veterinaria.petgabry.security.dto.PetResponseDTO;
 import br.com.veterinaria.petgabry.security.entities.Pet;
 import br.com.veterinaria.petgabry.security.services.PetService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping("/pet")
@@ -30,6 +32,8 @@ public class PetController {
 	@Autowired
 	PetService petService;
 	
+	@SecurityRequirement(name="bearer Auth")
+	@PreAuthorize("hasRole('USER')")
 	@PostMapping("/cadastrar")
 	@Operation(summary = "Adiciona um novo Pet e faz as analogias com o usuario(dono) e a clinica")
 	public ResponseEntity<?> cadastrarPet(@RequestBody PetDTO pet){
@@ -37,6 +41,8 @@ public class PetController {
 		return ResponseEntity.ok(new MessageResponseDTO("Pet cadastrado com sucesso!"));
 	}
 	
+	@SecurityRequirement(name="bearer Auth")
+	@PreAuthorize("hasRole('USER')")
 	@DeleteMapping("/deleteId/{id}")
 	@Operation(summary = "Deleta um pet pelo id")
 	public ResponseEntity<String> deletarId(@PathVariable int id){
@@ -48,12 +54,16 @@ public class PetController {
 		}
 	}
 	
+	@SecurityRequirement(name="bearer Auth")
+	@PreAuthorize("hasRole('USER')")
 	@GetMapping("/listar")
 	@Operation(summary = "Lista todos os pets cadastrados")
 	public List<Pet> listaPet(){
 		return petService.petList();
 	}
 	
+	@SecurityRequirement(name="bearer Auth")
+	@PreAuthorize("hasRole('USER')")
 	@PostMapping("/finalizacadastro")
 	@Operation(summary = "Finaliza o cadastro do pet usando nome do pet e nome do dono, e adiciona características adicionais")
 	public ResponseEntity<PetResponseDTO> finalizaCadastro(@RequestBody FinalizaCadastroDTO request) {
@@ -61,6 +71,8 @@ public class PetController {
 	    return ResponseEntity.ok(petResponse);
 	}
 	
+	@SecurityRequirement(name="bearer Auth")
+	@PreAuthorize("hasRole('USER')")
 	@PutMapping("/atualizar/{id}")
     @Operation(summary = "Atualiza os dados de um pet pelo ID")
     public ResponseEntity<?> atualizarPet(@PathVariable int id, @RequestBody PetDTO pet) {
@@ -72,6 +84,8 @@ public class PetController {
         }
     }
 	
+	@SecurityRequirement(name="bearer Auth")
+	@PreAuthorize("hasRole('USER')")
 	@GetMapping("/listar-com-info")
 	@Operation(summary = "Lista todos os pets com nome, serviço e raça")
 	public ResponseEntity<List<PetInfoDTO>> listarPetsComInfo() {
