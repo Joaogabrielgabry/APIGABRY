@@ -55,9 +55,6 @@ public class User {
     @OneToMany(mappedBy = "user") 
     private Set<Pet> pets = new HashSet<>();
 
-    @OneToMany(mappedBy = "user") 
-    private Set<Clinica> clinicas = new HashSet<>();
-
     public User() {}
 
     public User(String username, String email, String password) {
@@ -121,14 +118,6 @@ public class User {
 
     public void setPets(Set<Pet> pets) {
         this.pets = pets;
-    }
-
-    public Set<Clinica> getClinicas() {
-        return clinicas;
-    }
-
-    public void setClinicas(Set<Clinica> clinicas) {
-        this.clinicas = clinicas;
     }
 
 	public String getNome() {

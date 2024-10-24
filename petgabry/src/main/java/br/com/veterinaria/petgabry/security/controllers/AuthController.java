@@ -1,5 +1,6 @@
 package br.com.veterinaria.petgabry.security.controllers;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.veterinaria.petgabry.security.dto.JwtResponseDTO;
 import br.com.veterinaria.petgabry.security.dto.LoginRequestDTO;
@@ -28,6 +31,7 @@ import br.com.veterinaria.petgabry.security.enums.RoleEnum;
 import br.com.veterinaria.petgabry.security.jwt.JwtUtils;
 import br.com.veterinaria.petgabry.security.repositories.RoleRepository;
 import br.com.veterinaria.petgabry.security.repositories.UserRepository;
+import br.com.veterinaria.petgabry.security.services.FotoService;
 import br.com.veterinaria.petgabry.security.services.UserDetailsImpl;
 import jakarta.validation.Valid;
 
@@ -52,6 +56,8 @@ public class AuthController {
 	@Autowired
 	JwtUtils jwtUtils; 
 
+	@Autowired
+	FotoService fotoService;
 	
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequestDTO loginRequest) {
@@ -74,7 +80,7 @@ public class AuthController {
 
 
 	@PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequestDTO signUpRequest) {
+	public ResponseEntity<?> registerUser(@Valid @RequestPart SignupRequestDTO signUpRequest, @RequestPart MultipartFile foto) throws IOException {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 			return ResponseEntity.badRequest().body(new MessageResponseDTO("Erro: Username já utilizado!"));
 		}
@@ -119,6 +125,7 @@ public class AuthController {
 
 		user.setRoles(roles);
 		userRepository.save(user);
+		fotoService.cadastrarFoto(foto, user);
 
 		return ResponseEntity.ok(new MessageResponseDTO("Usuário registrado com sucesso!"));
 	}

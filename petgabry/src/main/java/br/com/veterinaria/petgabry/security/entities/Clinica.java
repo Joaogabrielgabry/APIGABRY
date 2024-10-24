@@ -9,7 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -25,10 +24,6 @@ public class Clinica {
     @Column(name = "nome")
     private String nome;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
-
     @OneToOne
     @JoinColumn(name = "endereco_id", referencedColumnName = "id")
     private Endereco endereco;
@@ -41,10 +36,9 @@ public class Clinica {
 
     public Clinica() {}
 
-    public Clinica(int id, String nome, User user, Endereco endereco, String horarioFuncionamento) {
+    public Clinica(int id, String nome, Endereco endereco, String horarioFuncionamento) {
         this.id = id;
         this.nome = nome;
-        this.user = user;
         this.endereco = endereco;
         this.horarioFuncionamento = horarioFuncionamento;
     }
@@ -69,14 +63,6 @@ public class Clinica {
         this.horarioFuncionamento = horarioFuncionamento;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public Endereco getEndereco() {
         return endereco;
     }
@@ -95,7 +81,7 @@ public class Clinica {
 
     @Override
     public String toString() {
-        return "Clinica [id=" + id + ", nome=" + nome + ", user=" + user + ", endereco=" + endereco
+        return "Clinica [id=" + id + ", nome=" + nome + ", endereco=" + endereco
                 + ", horarioFuncionamento=" + horarioFuncionamento + ", pets=" + pets + "]";
     }
 }
