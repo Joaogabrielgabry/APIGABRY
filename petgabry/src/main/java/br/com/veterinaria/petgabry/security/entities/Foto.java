@@ -32,6 +32,9 @@ public class Foto {
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "usuario_id")
 	private User user;
+	
+	@Column(name = "url")
+	private String url;
 
 	public Foto() {
 	}
@@ -85,4 +88,11 @@ public class Foto {
 		this.user = user;
 	}
 	
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 }
