@@ -3,6 +3,7 @@ package br.com.veterinaria.petgabry.security.services;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import br.com.veterinaria.petgabry.security.entities.Pet;
+import br.com.veterinaria.petgabry.security.entities.User;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
@@ -122,5 +125,37 @@ public class EmailService {
 		}catch(MessagingException e) {
 			return "Erro ao enviar o Email" + e.getMessage();
 		}
+	}
+	
+	public String enviarEmailComPets(User user, List<Pet> pets) {
+	    LocalDateTime dateTime = LocalDateTime.now();
+	    DateTimeFormatter dateForm = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
+	    MimeMessage message = javaMailSender.createMimeMessage();
+
+	    try {
+	        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+	        helper.setTo(user.getEmail());
+	        helper.setSubject("Lista de Pets");
+
+	        StringBuilder emailContent = new StringBuilder();
+	        emailContent.append("<h1>Seus Pets</h1>");
+	        emailContent.append("<p>Data: ").append(dateTime.format(dateForm)).append("</p>");
+	        emailContent.append("<h2>Olá ").append(user.getUsername()).append(", aqui estão seus pets:</h2>");
+	        
+	        for (Pet pet : pets) {
+	            emailContent.append("<h3>Nome do Pet: ").append(pet.getNomePet()).append("</h3>");
+	            emailContent.append("<p>Raça: ").append(pet.getTipo()).append("</p>");
+	            emailContent.append("<p>Serviço Atual: ").append(pet.getServicoAtual()).append("</p>");
+	            emailContent.append("<br>");
+	        }
+
+	        helper.setText(emailContent.toString(), true);
+	        javaMailSender.send(message);
+
+	        return "E-mail enviado com sucesso";
+	    } catch (Exception e) {
+	        return "Erro ao enviar e-mail: " + e.getMessage();
+	    }
 	}
 }

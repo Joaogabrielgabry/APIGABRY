@@ -1,15 +1,11 @@
 package br.com.veterinaria.petgabry.security.entities;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -31,8 +27,7 @@ public class Clinica {
     @Column(name = "horario_funcionamento")
     private String horarioFuncionamento;
 
-    @OneToMany(mappedBy = "clinica")
-    private Set<Pet> pets = new HashSet<>();
+   
 
     public Clinica() {}
 
@@ -71,17 +66,9 @@ public class Clinica {
         this.endereco = endereco;
     }
 
-    public Set<Pet> getPets() {
-        return pets;
-    }
-
-    public void setPets(Set<Pet> pets) {
-        this.pets = pets;
-    }
-
     @Override
     public String toString() {
         return "Clinica [id=" + id + ", nome=" + nome + ", endereco=" + endereco
-                + ", horarioFuncionamento=" + horarioFuncionamento + ", pets=" + pets + "]";
+                + ", horarioFuncionamento=" + horarioFuncionamento + "]";
     }
 }

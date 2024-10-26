@@ -93,4 +93,15 @@ public class PetController {
 	    return ResponseEntity.ok(petInfoList);
 	}
 
+	@SecurityRequirement(name="bearer Auth")
+	@PreAuthorize("hasRole('USER')")
+	@GetMapping("/listar-por-usuario/{userId}")
+	@Operation(summary = "Lista todos os pets de um usuário pelo ID")
+	public ResponseEntity<List<Pet>> listarPetsPorUsuario(@PathVariable int userId) {
+	    List<Pet> pets = petService.listarPetsPorUsuario(userId);
+	    if (pets.isEmpty()) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(pets);
+	    }
+	    return ResponseEntity.ok(pets);
+	}
 }

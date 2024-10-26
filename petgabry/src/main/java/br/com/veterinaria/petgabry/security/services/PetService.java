@@ -30,6 +30,9 @@ public class PetService {
 	@Autowired
 	ClinicaRepository clinicaRepository;
 	
+	@Autowired
+	EmailService emailService;
+	
 	public void cadastrarPet(PetDTO pet) {
 		Pet newPet = new Pet();
 		newPet.setNomePet(pet.getNomePet());
@@ -121,5 +124,14 @@ public class PetService {
 	        .collect(Collectors.toList());
 	}
 
+	public List<Pet> listarPetsPorUsuario(int userId) {
+	    User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com o ID: " + userId));
 
+	    List<Pet> pets = petRepository.findByUser(user);
+
+	   
+	    emailService.enviarEmailComPets(user, pets);
+
+	    return pets;
+	}
 }
